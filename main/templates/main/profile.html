@@ -1,0 +1,48 @@
+{% extends "main/base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-header">
+        <h1>Привіт, {{ user.username }}!</h1>
+        {% if user.is_staff %}
+            <span class="admin-badge">Адміністратор</span>
+        {% endif %}
+    </div>
+
+    <div class="profile-info">
+        <p><strong>Email:</strong> {{ user.email }}</p>
+        <p><strong>Дата реєстрації:</strong> {{ user.date_joined|date:"d.m.Y" }}</p>
+    </div>
+
+    <div class="orders-section">
+        <h2>{% if user.is_staff %}Всі замовлення (Адмін){% else %}Ваші замовлення{% endif %}</h2>
+        
+        <div class="orders-list">
+            {% for order in orders %}
+                <div class="order-card">
+                    <div class="order-header">
+                        <h3>Замовлення #{{ order.id }}</h3>
+                        <span class="order-date">{{ order.created_at|date:"d.m.Y H:i" }}</span>
+                    </div>
+                    {% if user.is_staff %}
+                        <p><strong>Клієнт:</strong> {{ order.user.username }} ({{ order.user.email }})</p>
+                    {% endif %}
+                    <ul class="order-items">
+                        {% for item in order.items.all %}
+                            <li>{{ item.mod.name }} — {{ item.price }} грн.</li>
+                        {% endfor %}
+                    </ul>
+                    <div class="order-footer">
+                        <strong>Всього: <span class="total-price">{{ order.total_price }} грн.</span></strong>
+                        <span class="status-badge">Виконано</span>
+                    </div>
+                </div>
+            {% empty %}
+                <p>Замовлень ще немає.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

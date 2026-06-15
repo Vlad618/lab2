@@ -1,0 +1,33 @@
+{% extends "main/base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+    <h1>Категорія: {{ category.name }}</h1>
+    
+    <div class="mods-grid">
+        {% for mod in mods %}
+            <div class="mod-card">
+                {% if mod.image %}
+                    <div class="mod-card-image">
+                        <img src="{{ mod.image.url }}" alt="{{ mod.name }}">
+                    </div>
+                {% endif %}
+                <h3><a href="{% url 'mod_detail' mod.id %}">{{ mod.name }}</a></h3>
+                <p><strong>Гра:</strong> {{ mod.game.name }}</p>
+                <p class="mod-price">{{ mod.price }} грн.</p>
+                <p>{{ mod.description|truncatewords:20 }}</p>
+                <div class="mod-card-actions">
+                    <a href="{% url 'mod_detail' mod.id %}" class="btn">Детальніше</a>
+                    <a href="{% url 'add_to_cart' mod.id %}" class="btn btn-buy">В кошик</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>У цій категорії поки немає модів.</p>
+        {% endfor %}
+    </div>
+    
+    <div style="margin-top: 30px;">
+        <a class="btn" href="{% url 'home' %}">⬅ На головну</a>
+    </div>
+{% endblock %}

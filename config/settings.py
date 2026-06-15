@@ -116,3 +116,22 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Authentication redirects
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+
+# Email settings (Gmail SMTP)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'formula1.portall@gmail.com'
+EMAIL_HOST_PASSWORD = 'qvgtqznoiiscmhhb'
+DEFAULT_FROM_EMAIL = 'formula1.portall@gmail.com'
+
+# Password reset link expiration (15 minutes = 900 seconds)
+PASSWORD_RESET_TIMEOUT = 900

@@ -1,0 +1,53 @@
+{% extends "main/base.html" %}
+
+{% block title %}{{ mod.name }}{% endblock %}
+
+{% block content %}
+<div class="mod-detail-container">
+    <div class="mod-detail-header">
+        <h1>{{ mod.name }}</h1>
+        <div class="header-actions">
+            <span class="rating-badge">⭐ {{ mod.average_rating|default:"0" }}/5</span>
+            <a href="{% url 'category_detail' mod.category.id %}" class="category-badge">{{ mod.category.name }}</a>
+        </div>
+    </div>
+
+    <div class="mod-detail-main">
+        <div class="mod-detail-image">
+            {% if mod.image %}
+                <img src="{{ mod.image.url }}" alt="{{ mod.name }}">
+            {% else %}
+                <div class="no-image">Немає фото</div>
+            {% endif %}
+        </div>
+
+        <div class="mod-detail-info">
+            <p class="mod-price">{{ mod.price }} грн.</p>
+            <p><strong>Гра:</strong> {{ mod.game.name }}</p>
+            <p><strong>Автор:</strong> {{ mod.author.name }}</p>
+            
+            <div class="mod-description">
+                <h3>Опис:</h3>
+                <p>{{ mod.description }}</p>
+            </div>
+
+            <div class="action-buttons">
+                <a href="{% url 'add_to_cart' mod.id %}" class="btn btn-buy">Додати у кошик</a>
+            </div>
+
+            <div class="rating-section">
+                <h3>Оцінити товар</h3>
+                <form method="post" class="rating-form">
+                    {% csrf_token %}
+                    {{ rating_form.score }}
+                    <button type="submit" class="btn">Надіслати відгук</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div style="margin-top: 30px;">
+        <a class="btn" href="{% url 'home' %}">⬅ На головну</a>
+    </div>
+</div>
+{% endblock %}

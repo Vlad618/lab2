@@ -1,0 +1,41 @@
+{% extends "main/base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="cart-container">
+    <h1>🛒 Ваш кошик</h1>
+
+    <div class="cart-items">
+        {% for mod in mods %}
+            <div class="cart-item">
+                <div class="cart-item-info">
+                    {% if mod.image %}
+                        <img src="{{ mod.image.url }}" alt="{{ mod.name }}" class="cart-thumb">
+                    {% endif %}
+                    <div>
+                        <h3>{{ mod.name }}</h3>
+                        <p>{{ mod.category.name }}</p>
+                    </div>
+                </div>
+                <div class="cart-item-actions">
+                    <span class="mod-price">{{ mod.price }} грн.</span>
+                    <a href="{% url 'remove_from_cart' mod.id %}" class="btn btn-danger">Видалити</a>
+                </div>
+            </div>
+        {% empty %}
+            <div class="empty-cart">
+                <p>Ваш кошик порожній.</p>
+                <a href="{% url 'home' %}" class="btn">Перейти до покупок</a>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if mods %}
+        <div class="cart-summary">
+            <h2>Разом до сплати: <span class="total-price">{{ total_price }} грн.</span></h2>
+            <a href="{% url 'checkout' %}" class="btn btn-buy btn-large">Оформити замовлення</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
